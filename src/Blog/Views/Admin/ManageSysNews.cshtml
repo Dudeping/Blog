@@ -1,0 +1,79 @@
+﻿@model IPagedList<SysNews>
+@{
+    ViewBag.Title = "公告管理";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section LoadCss{
+    <link href="~/css/backend-general.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <h1 class="header">公告管理</h1>
+
+        <a href="/Admin/AddSysNews">发布公告</a>
+
+        <div class="main-area col-gy-8">
+
+            <div class="main-content g-loc">
+                <div class="asshole">
+                    <table>
+                        <tr class="be-post-header">
+                            <th>标题</th>
+                            <th>发布时间</th>
+                            <th class="short-th">操作</th>
+
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-label="标题" class="title">@item.Title</td>
+                                <td data-label="发布时间" class="name">@item.CreateTime</td>
+                                <td data-label="操作">
+                                    <a href="#" data-toggle="modal" data-target="#view-feedback_@item.Id" type="button" class="g-btn view">查看</a>
+                                    <!-- 查看内容的模态框 -->
+                                    <div class="modal fade" id="view-feedback_@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">@item.Title</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @Html.Raw(item.Content)
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                        <tr>
+                            <td colspan="3">
+                                @if (!Model.Any())
+                                {
+
+                                }
+                                else
+                                {
+                                    @Html.PagedListPager(Model, page => Url.Action("ManageTags", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+    <script src="~/js/backend_scripts.js"></script>
+}

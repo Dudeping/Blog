@@ -1,0 +1,16 @@
+namespace BlogPlus.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class ChangeCollecti : DbMigration
+    {
+        public override void Up()
+        {
+        }
+        
+        public override void Down()
+        {
+        }
+    }
+}

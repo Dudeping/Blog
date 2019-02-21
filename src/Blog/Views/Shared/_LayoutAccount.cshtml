@@ -1,0 +1,47 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="KickUs,一个分享技术、生活、哲理的博客网站">
+    <meta name="author" content="Gaby, DepingDu">
+
+    <title>@ViewBag.Title</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/account_relative.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="page-content">
+        @RenderBody()
+    </div>
+
+    <div class="footer">
+        <ul class="items">
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">安全</a></li>
+            <li><a href="@Url.Action("About", "Home")">联系我们</a></li>
+        </ul>
+    </div>
+    <div id="particles"></div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/js/jquery.particleground.min.js"></script>
+    <script>
+
+        //可以根据下面表格中参数说明设定相应参数
+        $('#particles').particleground({
+            dotColor: '#4abdac',
+            lineColor: '#4abdac'
+        });
+    </script>
+
+    @RenderSection("LoadJS", false)
+    <script>
+        $.get("/Home/LookNumCount");
+    </script>
+</body>
+</html>

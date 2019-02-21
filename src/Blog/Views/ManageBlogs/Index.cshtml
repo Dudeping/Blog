@@ -1,0 +1,103 @@
+﻿@model IPagedList<ManageBlog>
+
+@{
+    ViewBag.Title = "管理随笔";
+}
+
+@section LoadCss{
+    <link href="~/css/blog_manager.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <div class="col-gy-4">
+            <nav class="menu">
+                <h3 class="menu-header">操作</h3>
+                <a href="/ManageBlogs/Create?type=Jotting" class="menu-item">添加随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="menu-item">管理文章</a>
+                <a href="/ManageBlogs/ManageCategory" class="menu-item">管理类别</a>
+                <a href="/ManageBlogs/Draft?type=Jotting" class="menu-item">草稿箱</a>
+                @if (User.IsInRole("User"))
+                {
+                    if (ViewBag.SysNewsNum > 0)
+                    {
+                        <a href="/Users/SysNews" class="menu-item">
+                            系统消息<span class="glyphicon glyphicon-envelope prompt-icon"></span>
+                            <span class="new-feed">@ViewBag.SysNewsNum</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Feedback", "Users")" class="menu-item">意见反馈</a>
+                    }
+                }
+            </nav>
+        </div>
+
+        <div class="main-area col-gy-8">
+            <div class="sub-header">
+                <a href="/ManageBlogs/Index?type=Jotting" class="selected header-item">随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="header-item">文章</a>
+                <a href="@Url.Action("Index", "ManageCollection")" class="header-item">收藏</a>
+                <a href="@Url.Action("Index", "Settings")" class="header-item">设置</a>
+            </div>
+
+            <div class="main-content">
+                <div class="post-list">
+                    <div id="HandleDiv" hidden="hidden" style="color:red; text-align:center;">正在操作...</div>
+                    <table>
+                        <tbody>
+                            <tr class="post-header">
+                                <th class="post-title">标题</th>
+                                <th class="short-th">发布状态</th>
+                                <th>发布日期</th>
+                                <th class="short-th">阅读数</th>
+                                <th>编辑</th>
+                                <th>删除</th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="interval">
+                                    <td><a href="@Url.Action("BlogDetails", "Users", new{id=item.Id})" target="_blank">@item.Title</a></td>
+                                    <td><span class="status">@(item.IsPulish == false ? "未公开" : "已发布")</span></td>
+                                    <td><span>@item.CreateTime.ToShortDateString()</span></td>
+                                    <td><span class="page-view">@item.LookNum</span></td>
+                                    <td><a href="@Url.Action("Edit", "ManageBlogs", new { id = item.Id })">编辑</a></td>
+                                    <td>@Ajax.ActionLink("删除", "Delete", new { id = @item.Id }, new AjaxOptions { Confirm = "你确定要删除该博客么?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "DeleteSuccess" }, new { @class = "delete" })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @if (!Model.Any())
+                {
+
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(ViewBag.SearchStr))
+                    {
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, type = ViewBag.BlogType }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                    }
+                    else
+                    {
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, type = ViewBag.BlogType, searchStr= ViewBag.SearchStr }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function HandleFailure() {
+            alert("处理失败!");
+        }
+        function DeleteSuccess() {
+            alert("删除成功!");
+            location.reload();
+        }
+    </script>
+}

@@ -1,0 +1,92 @@
+﻿@model Feedback
+@{
+    ViewBag.Title = "意见反馈";
+}
+
+@section LoadCss{
+    <link href="~/css/mainpage.css" rel="stylesheet" />
+    <link href="~/css/blog_manager.css" rel="stylesheet" />
+    <link href="~/dist/css/wangEditor.min.css" rel="stylesheet" />
+    <link href="~/css/post_edit.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <div class="col-gy-4">
+            <nav class="menu">
+                <h3 class="menu-header">操作</h3>
+                @if (ViewBag.SysNewsNum > 0)
+                {
+                    <a href="/Users/SysNews" class="menu-item">未读消息<span class="glyphicon glyphicon-bell prompt-icon"></span><span class="new-message">@ViewBag.SysNewsNum</span></a>
+                }
+                <a href="/Users/Message" class="menu-item">已读消息</a>
+                <a href="/Users/Feedback" class="menu-item">意见反馈</a>
+                <a href="/ManageBlogs/Index?type=Jotting" class="menu-item">管理随笔</a>
+            </nav>
+        </div>
+
+        <div class="main-area col-gy-8">
+            <div class="sub-header">
+                <a href="/Users/Feedback" class="selected header-item">意见反馈</a>
+                <a href="/ManageBlogs/Index?type=Jotting" class="header-item">随笔</a>
+                <a href="/Settings/Index" class="header-item">设置</a>
+            </div>
+
+            <div class="main-content  g-loc">
+                <div class="edit-part">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class="text-danger"})
+                        <div class="post-title">
+                            @Html.LabelFor(model => model.Title)
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new {@class="input-box"}})
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class="text-danger"})
+                        </div>
+
+                        <div class="edit-area">
+                            @Html.TextAreaFor(model => model.Content, new { id = "ref-wangEditor"})
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class="text-danger"})
+                        </div>
+
+                        <div class="post-option">
+                            <input type="submit" id="just-post" value="提交">
+                            <input type="submit" onclick="location.href='/ManageBlogs/Index'" id="save-asdraft" value="取消">
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/dist/js/wangEditor.min.js"></script>
+
+    <script type="text/javascript">
+    // 获取元素
+    var textArea = document.getElementById('ref-wangEditor');
+    //关闭 Log
+    wangEditor.config.printLog = false;
+    // 生成编辑器
+    var editor = new wangEditor(textArea);
+    // 自定义表情
+    editor.config.emotions = {
+        'default': {
+            title: '默认',
+            data: 'https://blog.ydath.cn/Emoji/emotions.data'
+        }
+    };
+    // 取消粘贴过滤
+    editor.config.pasteFilter = false;
+
+        // 文件上传配置
+        editor.config.uploadImgUrl = '/ManageBlogs/UploadImg';// 配置上传路径
+        editor.config.uploadImgFileName = 'BlogPlusImg'; // 配置统一Name
+        editor.config.uploadParams = { usrId: '@User.Identity.Name' }; // 配置自定义参数
+        editor.config.uploadHeaders = { 'Accept': 'text/x-json' };     // 设置headers
+    editor.create();
+    </script>
+}

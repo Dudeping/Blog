@@ -1,0 +1,160 @@
+﻿@model BlogModel
+
+@{
+    if (Model.BlogType == BlogType.Article.ToString())
+    {
+        ViewBag.Title = "编辑文章 - " + Model.Title;
+    }
+    else
+    {
+        ViewBag.Title = "编辑博客 - " + Model.Title;
+    }
+}
+
+@section LoadCss{
+    <link href="~/css/post_edit.css" rel="stylesheet" />
+    <link href="~/dist/css/wangEditor.min.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="g-content clearfix">
+        <div class="edit-part">
+            @using (Html.BeginForm("Edit", "ManageBlogs", FormMethod.Post, new { enctype ="multipart/form-data"}))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.IsRelease)
+                @Html.HiddenFor(model => model.BlogType)
+                @Html.HiddenFor(model => model.Id)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="post-title">
+                    @Html.LabelFor(model => model.Title)
+                    <input class="input-box" data-val="true" data-val-length="标题应该在2-50位之间!" data-val-length-max="50" data-val-length-min="2" data-val-remote-additionalfields="*.Title" data-val-required="标题为必填项!" id="Title" name="Title" type="text" value="@Model.Title" />
+                </div>
+                @Html.ValidationMessageFor(mode => mode.Title, "", new { @class = "text-danger" })
+
+                <div class="edit-area">
+                    @Html.TextAreaFor(model => model.Content,  new {id = "ref-wangEditor" })
+                </div>
+                @Html.ValidationMessageFor(mode => mode.Content, "", new { @class = "text-danger"})
+
+                <div class="classify">
+                    <label>类别</label><br />
+                    @foreach (var item in (List<Category>)ViewBag.Categories)
+                    {
+                        <input @(Model.Category.Contains(item.Id) ? "checked":"") type="checkbox" name="Category" value="@item.Id" id="@item.Id" /><label for="@item.Id">@item.Name</label>
+                    }
+                </div>
+
+                <div class="tags">
+                    @Html.LabelFor(model => model.Tags)
+                    @Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "input-box", placeholder = "以逗号分隔" } })
+                    @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="settings">
+                    @Html.CheckBoxFor(model => model.IsPulish, new { id = "if-public" })
+                    @Html.Label("if-public", "是否公开")
+                    <br>
+                    @Html.CheckBoxFor(model => model.IsPush, new { id = "if-mainpage" })
+                    @Html.Label("if-mainpage", "是否发布到网站首页")
+                </div>
+                <div class="post-option">
+                    @if (Model.IsRelease == false)
+                    {
+                        <input type="submit" onclick="$('#IsRelease').val(true); ChangeState();" id="just-post" value="发布">
+                        <input type="submit" onclick="$('#IsRelease').val(false); ChangeState();" id="save-asdraft" value="保存">
+                    }
+                    else
+                    {
+                        <input type="submit" onclick="$('#IsRelease').val(true); ChangeState();" id="just-post" value="保存">
+                        <input type="submit" onclick="history.go(-1); return false;" id="save-asdraft" value="取消">
+                    }
+                </div>
+            }
+        </div>
+        <div class="suggest-part">
+            <div class="scroll-bar">
+                <!--看怎么固定-->
+                @if (Model.BlogType == BlogType.Article.ToString())
+                {
+                    <h4>文章写什么?</h4>
+                    <p><b>文章主要用于转载, 发布原创请到随笔!</b></p>
+                }
+                else
+                {
+                    <h4>随笔写什么?</h4>
+                    <p><b>你的随笔一定得是编程相关的吗？</b></p>
+                    <p>诚然我们更喜欢编程类的文章，但只要是你程序生活中的所感所想，均可发表，我们全部接受:)</p>
+                }
+                <h4>内容建议</h4>
+                <p><span>&#9654;</span> 算法相关</p>
+                <p><span>&#9654;</span> 语言相关</p>
+                <p><span>&#9654;</span> 框架相关</p>
+                <p><span>&#9654;</span> 考研干货</p>
+                <p><span>&#9654;</span> 感想心得</p>
+                <p><span>&#9654;</span> 面试经历</p>
+                <h4>严厉禁止</h4>
+                <p><span>&#9654;</span> 广告宣传</p>
+                <p><span>&#9654;</span> 无价值灌水贴</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+    <!--这里引用jquery和wangEditor.js-->
+    <script src="~/dist/js/wangEditor.js"></script>
+    <script type="text/javascript">
+        // 获取元素
+        var textArea = document.getElementById('ref-wangEditor');
+        // 生成编辑器
+
+        //关闭 Log
+        wangEditor.config.printLog = false;
+        var editor = new wangEditor(textArea);
+
+        // TODO:地图ACK
+        // 为页面所有的editor配置全局的密钥
+        //wangEditor.config.mapAk = 'TVhjYjq1ICT2qqL5LdS8mwas';  // 此处换成自己申请的密钥
+
+        // 自定义表情
+        editor.config.emotions = {
+            'default': {
+                title: '默认',
+                data: 'https://blog.ydath.cn/Emoji/emotions.data'
+            }
+        };
+        // 取消粘贴过滤
+        editor.config.pasteFilter = false;
+
+        // 文件上传配置
+        editor.config.uploadImgUrl = '/ManageBlogs/UploadImg';// 配置上传路径
+        editor.config.uploadImgFileName = 'BlogPlusImg'; // 配置统一Name
+        editor.config.uploadParams = { usrId: '@User.Identity.Name' }; // 配置自定义参数
+        editor.config.uploadHeaders = { 'Accept': 'text/x-json' };     // 设置headers
+
+        editor.create();
+
+        //在离开页面时判断是否有未保存的输入值 
+        var hasSaved = false;//是否有输入的内容未保存标志，初始值为false 
+        function CheckUnsave() {
+            if (hasSaved == false) {
+                alert("系统不会自动保存本页面内容,请保存后离开!");
+                return false;
+            }
+            //return true; //不能加这个语句 
+        }
+
+        //保存了则改变状态 
+        function ChangeState() {
+            hasSaved = true;
+        }
+
+        window.onbeforeunload = function () {
+            return CheckUnsave();
+        }
+    </script>
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}

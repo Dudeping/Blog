@@ -1,0 +1,78 @@
+﻿@model RegisterModel
+
+@{
+    ViewBag.Title = "注册";
+}
+
+@section LoadCss{
+    <link href="~/css/register.css" rel="stylesheet" />
+}
+
+<div class="main-part">
+    <div class="pa-vertical">
+        <div class="pa-horizontal clearfix">
+            <div class="col-gy-7">
+                <h1 class="title">为川农<br>开发者而生</h1>
+                <p class="description">
+                    提供一个供校园技术开发者交流心得、分享感触的博客平台。<br>在这里
+                    你将拓展自己的技术人脉<br>全面提升技术的深度、广度
+                </p>
+            </div>
+            <div class="col-gy-5">
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "signup" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", htmlAttributes:new { @class = "text-danger"})
+
+                    <dl>
+                        <dd>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input-box", placeholder = "你的邮箱地址" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger"})
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dd>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input-box", placeholder = "创建一个密码" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger"})
+                        </dd>
+                    </dl>
+
+                    <dl>
+                        <dd>
+                            @Html.EditorFor(model => model.RePassword, new { htmlAttributes = new { @class = "input-box", placeholder = "重复你的密码" } })
+                            @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger"})
+                        </dd>
+                    </dl>
+
+                    <button type="submit" class="btn btn-primary btn-lg">现在加入</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+
+</div>
+
+@section LoadJS{
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+}

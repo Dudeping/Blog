@@ -1,0 +1,183 @@
+﻿@model Blog
+@{
+    var usrInfo = (User)ViewBag.UserInfo;
+    ViewBag.Title = "博客详情 - " + Model.Title;
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+@section LoadCss{
+    <link href="~/css/personal.css" rel="stylesheet" />
+    <link href="~/dist/css/wangEditor.min.css" rel="stylesheet" />
+}
+
+<div class="g-container clearfix">
+    <div class="main-part">
+        <article>
+            <div class="article-header">
+                <h1>@Model.Title</h1>
+                <p><span class="glyphicon glyphicon-time"></span> 发表于<span class="post-time">@Model.CreateTime.ToShortDateString()</span></p>
+            </div>
+            <div class="article-content alt">
+                <div id="post-body">
+                    @Html.Raw(Model.Content)
+                </div>
+            </div>
+            <div class="article-footer">
+                <span class="glyphicon glyphicon-pushpin"></span>
+                @if (!string.IsNullOrWhiteSpace(Model.Tags))
+                {
+                    foreach (var item in Model.Tags.Split(','))
+                    {
+                        <a href="/Users/SearchTag?searchTag=@HttpUtility.UrlEncode(item, System.Text.Encoding.UTF8)&usrId=@Model.Author.Id">@item</a>
+                    }
+                }
+
+                @if (Request.IsAuthenticated)
+                {
+                    if (ViewBag.IsCollection <= 0)
+                    {
+                        <a href="#" onclick="Collection(@Model.Id, '@User.Identity.Name'); return false;" class="collection"><span class="sta">收藏</span><span class="glyphicon glyphicon-star"></span></a>
+                    }
+                    else
+                    {
+                        <a class="collect">已收藏<span class="glyphicon glyphicon-star"></span></a>
+                    }
+                }
+                else
+                {
+                    <a hidden="hidden"></a>
+                }
+            </div>
+        </article>
+
+
+        <nav class="g-pagination clearfix set-color">
+            @{
+                var preBlog = (PANBlog)ViewBag.PreBlog;
+                var nextBlog = (PANBlog)ViewBag.NextBlog;
+                if (preBlog == null)
+                {
+                    <div class="g-pre">
+                        <a>
+                            <strong>上一篇</strong>
+                            <br>
+                            <span class="glyphicon glyphicon-menu-left"></span><span class="pre-article">无</span>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="g-pre">
+                        <a href="@Url.Action("BlogDetails", "Users", new {id=preBlog.Id})">
+                            <strong>上一篇</strong>
+                            <br>
+                            <span class="glyphicon glyphicon-menu-left"></span><span class="pre-article">@preBlog.Title</span>
+                        </a>
+                    </div>
+                }
+                if (nextBlog == null)
+                {
+                    <div class="g-next">
+                        <a>
+                            <strong>下一篇</strong>
+                            <br>
+                            <span class="next-article">无</span><span class="glyphicon glyphicon-menu-right"></span>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="g-next">
+                        <a href="@Url.Action("BlogDetails", "Users", new {id=nextBlog.Id})">
+                            <strong>下一篇</strong>
+                            <br>
+                            <span class="next-article">@nextBlog.Title</span><span class="glyphicon glyphicon-menu-right"></span>
+                        </a>
+                    </div>
+                }
+            }
+        </nav>
+
+    </div>
+
+    <div class="side-part">
+        @*<div class="tag-list">
+                <h1>标签</h1>
+                <ul>
+                    @foreach (var item in usrInfo.Tags.OrderByDescending(p => p.Id))
+                    {
+                        <li><a href="/Users/SearchTag?searchStr=@HttpUtility.UrlEncode(item.Name, System.Text.Encoding.UTF8)&usrId=@usrInfo.Id">@item.Name</a></li>
+                    }
+                </ul>
+            </div>*@
+
+        <div class="friend-list">
+            <h1>友情链接</h1>
+            <ul>
+                @foreach (var item in usrInfo.FriendLink.Split(new[] { "@@@@@" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var link = item.Trim(' ').Split(new[] { "-----" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    <li><a target="_blank" href="@link[1].Trim(' ')">@link[0].Trim(' ')</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>
+<!-- Modal -->
+<div class="modal inmodal fade bs-example-modal-lg" id="showImg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">查看图片</h4>
+            </div>
+            <div class="modal-body">
+                <img id="showpic" src="#" />
+            </div>
+        </div>
+    </div>
+</div>
+@section LoadJS{
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="~/dist/js/wangEditor.min.js"></script>
+    <script>
+        function Collection(bid, uemail) {
+            $.ajax({
+                type: "post",
+                url: "/ManageCollection/Collection",
+                data: { id: bid, email: uemail },
+                dataType: "json",
+                success: function (data) {
+                    if (data === true) {
+                        $(".collection").find(".glyphicon").addClass("collect")
+                            .end()
+                            .find(".sta").html("已收藏");
+                    }
+                    else {
+                        alert("操作失败!");
+                    }
+                    return false;
+                },
+                error: function () {
+                    alert("操作失败!");
+                }
+            });
+        }
+        var body = document.getElementById('post-body');
+        var imgs = document.querySelectorAll('img');
+        if (imgs.length > 0) {
+            for (var i = 0; i < imgs.length; i++) {
+                imgs[i].onclick = function () {
+                    var img = document.getElementById("showpic");
+                    img.setAttribute('src', this.getAttribute('src'));
+                    img.style = "max-width:100%;";
+                    $('#showImg').modal({
+                        keyboard: false
+                    });
+                }
+            }
+        }
+    </script>
+}

@@ -1,0 +1,74 @@
+﻿@{ 
+    Layout = null;
+}
+
+<ul class="nav navbar-nav navbar-left">
+    <li><a href="@Url.Action("About", "Home")">关于我们</a></li>
+    <li><a href="@Url.Action("Users", "Home")">用户</a></li>
+    @if (Request.IsAuthenticated)
+    {
+        <li><a href= "@Url.Action("Index", "Users", new{id = @ViewBag.UsrId})">我的主页</a></li>
+        <li><a href="/ManageBlogs/Index?type=Jotting">管理博客</a></li>
+    }
+</ul>
+
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle kick" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <img src="~/icon/avatar.png" alt="">
+            </a>
+            <ul class="dropdown-menu">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <li><a href="@Url.Action("Index", "Admin")" target="_blank">后台主页</a></li>
+                }
+                <li><a href="@Url.Action("Index", "Settings")">个人资料</a></li>
+                <li><a href="@Url.Action("ChangePassword", "Account")">修改密码</a></li>
+                <li><a href="/Account/Logout">注销</a></li>
+            </ul>
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="@Url.Action("Login", "Account")">登录</a></li>
+    </ul>
+}
+
+@if (string.IsNullOrWhiteSpace(ViewBag.BlogType))
+{
+    <form action="@Url.Action("Index", "Home", new { id = 1 })" class="navbar-form navbar-right">
+        <div class="form-group">
+            @if (string.IsNullOrWhiteSpace(ViewBag.SearchStr))
+            {
+                <input type="text" name="searchStr" class="form-control" placeholder="输入标题搜索">
+            }
+            else
+            {
+                <input type="text" name="searchStr" onfocus="onfocus" value="@ViewBag.SearchStr" class="form-control" placeholder="输入标题搜索">
+            }
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+    </form>
+}
+else
+{
+
+    <form action="@Url.Action("Index", "ManageBlogs")" class="navbar-form navbar-right">
+        <div class="form-group">
+            <input type="hidden" name="type" value="@ViewBag.BlogType" />
+            @if (string.IsNullOrWhiteSpace(ViewBag.SearchStr))
+            {
+                <input type="text" name="searchStr" class="form-control" placeholder="输入标题搜索">
+            }
+            else
+            {
+                <input type="text" name="searchStr" onfocus="onfocus" value="@ViewBag.SearchStr" class="form-control" placeholder="输入标题搜索">
+            }
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+    </form>
+}

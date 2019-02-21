@@ -1,0 +1,308 @@
+.navbar-default {
+    padding-bottom: 16px;
+    padding-top: 16px;
+}
+
+.brand-icon {
+    padding-top: 0.438em;
+}
+
+.page-content {
+    width: 85%;
+    margin: 10.25em auto 70px;
+}
+
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+/*main-part*/
+a,a:hover {
+    text-decoration: none;
+}
+
+/*为什么这里的hover无论对哪个都不奏效？
+a:hover {
+    color: #5bc0de;
+}
+*/
+
+.posts .post-item {
+    margin-bottom: 2.143em;
+    border-bottom: 1px solid rgb(242,242,242);
+}
+
+.posts .post-item > a {
+    color: rgb(95,95,95);
+    font-size: 1.5em;
+}
+
+.posts .post-item > a:hover {
+    color: #00CCCC;
+}
+
+.readmore, .readmore:hover {
+    color: #5bc0de;
+    text-decoration: underline;
+    margin-left: 0.714em;
+}
+
+/*.posts .post-item > p:after{
+    content: "阅读更多»";
+    cursor: pointer;
+    color: #5bc0de;
+    text-decoration: underline;
+    margin-left: 0.714em;
+}*/
+/*如何after后hover
+.posts .post-item > p::after:hover {
+    color: red;
+}
+*/
+.posts .post-item .post-footer {
+    margin-bottom: 1.5em;
+}
+
+.posts .post-item .post-footer .loc {
+    margin-left: 0.4em;
+}
+
+/*.posts .post-item .post-footer a {
+    background: #5bc0de;
+    color: white;
+    padding: 3px;
+    border-radius: 3px  ;
+    margin-right: 4px;
+}*/
+
+.user-name {
+    margin-right: 3px;
+}
+
+.essay {
+    background: #FF9900;
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.article {
+    background: #33CC99;
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.posts .post-item p {
+    margin: 1em 0;
+}
+
+.gpagination {
+    text-align: center;
+}
+
+.gpagination .circle {
+    width: 30px;
+    height: 30px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    background: #5bc0de;
+    color: white;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    font-size: 12px;
+}
+
+.gpagination .current {
+    background: white;
+    color: black;
+    border: 1px solid #5bc0de;
+}
+
+.gpagination > a:hover{
+    background: #6699FF;
+    border:1px solid #6699FF;
+    transition: background .2s;
+}
+
+/*side-part*/
+.sidepart {
+    margin-top: 1.429em;
+}
+.sidepart > div {
+    width: 80%;
+    border: 1px solid #CCC;
+    margin: 0 auto 1.429em;
+    /*text-align: center;*/
+    padding: 1.429em;
+}
+
+.tag-list > ul {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.tag-list > ul > li {
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.tag-list > ul > li .badge {
+    border-radius: 30%;
+    background-color: white;
+    color: #4abdac;
+    padding: 2px 2px;
+    margin-left: 7px;
+}
+
+.tag-list a {
+    padding: 3px;
+    background: #4abdac;
+    color: white;
+}
+
+.sidepart .tags .label {
+    display: inline-block;
+    padding: .5em .6em .3em;
+    margin-bottom: 10px;
+}
+
+.sidepart .tags .label-primary {
+    background-color: #4abdac;
+    border-radius: 0;
+}
+
+.sidepart .tags .badge {
+    margin-left: 6px;
+}
+
+.sidepart .tags .label-primary .badge {
+    color: #4abdac;
+    background-color: white;
+}
+
+.sidepart .websites .icon {
+    margin-bottom: 0.514em;
+}
+
+.groomblogs li{
+    line-height:1em;
+    margin-bottom:1em;
+}
+/*感觉这里可读性不够*/
+/*.sidepart ul li:before {
+    content: "《";
+}
+
+.sidepart ul li:after {
+    content: "》";
+}*/
+.sidepart ul {
+    padding-left: 0.714em;
+}
+
+/*footer的移动设备样式*/
+.footer {
+    background: #2e3033;
+    padding: 2.143em 2.857em 2.143em;
+}
+.footer .column {
+    border-bottom: 1px solid #45484c;
+}
+.footer .column .items {
+    display: none;
+}
+
+.footer .column a {
+    color: #ffffff;
+    position: relative;
+}
+
+.footer .column h4 {
+    font-size: 16px;
+}
+.footer .column .title {
+    display: block;
+    line-height: 40px;
+}
+
+.footer .column .title:after {
+    position: absolute;
+    right: 0px;
+    top: 7px;
+    content: ""; /*无论搞什么，都一定要加这个*/
+    width: 0px;
+    height: 0px;
+    border-top: 14px solid #ffffff;
+    border-right: 14px solid transparent;
+    border-bottom: 14px solid #ffffff;
+    border-left: 14px solid #ffffff;
+    border-radius: 14px;
+}
+.footer .column ul li a {
+    line-height: 26px;
+}
+
+@media only screen and (min-width: 29.57em) { /*414px*/
+    .footer {
+        padding-left: 7em;
+    }
+    .footer .column {
+        display: inline-block;
+        width: 19%;
+    }
+
+    .footer .column .title {
+        line-height: 17.33px;
+    }
+
+    .footer .column .title:after {
+        display: none;
+    }
+    .footer .column .h4 {
+        margin-bottom: 15px;
+    }
+    .footer .column .items {
+        display: block;
+    }
+}
+/*840px*/
+@media only screen and (min-width: 52.5em) {
+
+    .clearfix:before,
+    .clearfix:after {
+        content: " ";
+        display: table;
+    }
+
+    .clearfix:after {
+        clear: both;
+    }
+
+    .clearfix {
+        *zoom: 1;
+    }
+
+    .main-part {
+        width: 70%;
+        float: left;
+    }
+
+    .sidepart {
+        width: 30%;
+        float: left;
+    }
+
+}
+/*给用户向主页准备的样式*/
+.navbar-nav>li>a.kick {
+    padding-top: 7.8px;
+}
+
+.navbar-default .navbar-nav>.open>a.kick, .navbar-default .navbar-nav>.open>a.kick:focus, .navbar-default .navbar-nav>.open>a.kick:hover {
+    background: transparent;
+}

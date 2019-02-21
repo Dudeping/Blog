@@ -1,0 +1,69 @@
+﻿@model IPagedList<User>
+@{
+    ViewBag.Title = "用户";
+}
+@section LoadCss{
+    <link href="~/css/user.css" rel="stylesheet" />
+}
+<div class="g-container">
+    <div class="content">
+        <div class="main-part">
+            <div class="user-search clearfix">
+                <!--clearfix make no sense-->
+                <h1 class="user-title">用户</h1>
+                <div class="search-part">
+                    查找用户:
+                    <form action="/Home/Users">
+                        @if (string.IsNullOrWhiteSpace(ViewBag.searchUser))
+                        {
+                            <input name="searchUser" type="text" class="input-box">
+                        }
+                        else
+                        {
+                            <input name="searchUser" type="text" value="@ViewBag.searchUser" class="input-box">
+                        }
+                    </form>
+                </div>
+            </div>
+            <div class="user-browse">
+                @foreach (var item in Model)
+                {
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <a href="@Url.Action("Index","Users",new { id = @item.Id })">
+                                <img src="@item.PicLink">
+                            </a>
+                        </div>
+                        <div class="user-details">
+                            <a href="@Url.Action("Index","Users",new { id = @item.Id })" class="user-name">@item.NickName</a>
+                            <span class="user-location">@item.SchoolName</span>
+                            <span class="user-grade">@item.JoinTime.Year</span>
+                        </div>
+                        @* 拖住了太多的速度 *@
+                        @*<div class="user-tags">
+                                @{ var tags = item.Tags.OrderByDescending(p => p.Id).Take(3).ToList(); }
+                                @for (int i = 0; i < tags.Count; i++)
+                                {
+                                    <a href="/Users/SearchTag?usrId=@item.Id&searchStr=@tags[i].Name">@tags[i].Name</a>
+                                    if (i == 2)
+                                    {
+                                        break;
+                                    }
+                                }
+                            </div>*@
+                    </div>
+                }
+                @if (!Model.Any())
+                {
+
+                }
+                else
+                {
+                    @(string.IsNullOrWhiteSpace(ViewBag.searchUser) ? Html.PagedListPager(Model, page => Url.Action("Users", new {page}), PagedListRenderOptions.OnlyShowFivePagesAtATime) : Html.PagedListPager(Model, page => Url.Action("Users", new {page, ViewBag.searchUser}), PagedListRenderOptions.OnlyShowFivePagesAtATime))
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer"></div>

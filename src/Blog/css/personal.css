@@ -1,0 +1,404 @@
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.user-name {
+    cursor: pointer;
+}
+
+body {
+    background: #ddd;
+}
+header {
+    padding: 20px 0px;
+    background: #3fb0ac;
+    color: white;
+    box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
+}
+
+header > div {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.user-avatar {
+    width: 4em;
+    height: 4em;
+    float: left;
+}
+
+.cut-circle {
+    border-radius: 50%;
+}
+
+.user-introduction {
+    float: left;
+    width: 75%;
+}
+
+.site-name {
+    font-size: 32px;
+    margin: 0;
+}
+
+.motto {
+    font-size: 11px;
+    margin-top: 7px;
+    line-height: 17px;
+}
+
+.g-navbar {
+    position: absolute;
+    right: 0;
+    top: 20px;
+}
+
+.menu {
+    float: left;
+    width: 50%;
+    display: none;
+    font-size: 130%;
+}
+
+.menu ul li {
+    padding: .2em 0 .2em 0.7em;
+}
+
+.menu a {
+    color: white;
+}
+.shownav {
+    display: block;
+}
+
+.menu > ul {
+    padding-left: 0px;
+    padding-top: 20px;
+    list-style-type: none;
+}
+
+.main-part {
+    margin-top: 20px;
+}
+
+article {
+    margin-bottom: 40px;
+    background: white;
+}
+
+.article-header {
+    border-bottom: 1px solid #dadada;
+    padding-left: 10px;
+}
+
+.article-header > p {
+    text-align: right;
+    padding-right: 20px;
+    color: #817c7c;
+}
+
+.glyphicon-time {
+    position: relative;
+    top: 2px;
+}
+
+article  h1 {
+    font-size: 27px;
+    padding: 20px 20px 5px 20px;
+    margin-bottom: 0px;
+}
+
+.article-content {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+}
+
+.alt {
+    margin-bottom: 24px;
+    border-bottom: 1px solid #dadada;
+    padding-bottom: 24px;
+}
+
+#post-body {
+    margin-top: 40px;
+    padding-left: 10px;
+}
+.article-content > p {
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.article-footer {
+    padding-left: 20px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.glyphicon-upload {
+    margin-left: 7px;
+}
+
+.loc {
+    margin-left: 0.4em;
+}
+
+.essay {
+    background: #FF9900;
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.article {
+    background: #33CC99;
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.collected {
+    margin-right: 3px;
+}
+
+.article-footer > a {
+    color: white;
+    padding: 3px;
+    background: #4abdac;
+}
+
+.article-footer > a:last-child {
+    padding: 6px 12px;
+    background: white;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    color: #999;
+    position: absolute;
+    top: -8px;
+    right: 3%;
+}
+
+.article-footer > a:last-child:focus,
+.article-footer > a:last-child:hover {
+    text-decoration: none;
+}
+
+
+.article-footer > collection:focus,
+.article-footer > collection:hover {
+    text-decoration: none;
+}
+
+.article-footer > collect:focus,
+.article-footer > collect:hover {
+    text-decoration: none;
+}
+
+.glyphicon-star {
+    margin-left: 5px;
+}
+
+.collect {
+    color: #0767c8;
+}
+
+
+.g-pagination {
+    background: white;
+    text-align: center;
+}
+
+.g-pagination > a:hover{
+    text-decoration: none;
+    background: #ccc;
+    transition: background 1s ease-out;
+}
+
+.page-number {
+    display: none;
+    padding: 8px 16px;
+}
+
+.next-page {
+    float: right;
+    padding: 10px;
+}
+
+.side-part {
+    background: white;
+    margin-top: 20px;
+}
+
+.side-part h1 {
+    font-size: 18px;
+    margin-top: 0;
+}
+
+.tag-list, .friend-list{
+    padding: 20px 0 10px 20px;
+    border-bottom: 1px solid #dadada;
+}
+
+.tag-list > ul {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.tag-list > ul > li {
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.tag-list > ul >li .badge{
+    border-radius: 30%;
+    background-color: white;
+    color: #4abdac;
+    padding: 2px 2px;
+    margin-left: 7px;
+}
+
+.tag-list a {
+    padding: 3px;
+    background: #4abdac;
+    color: white;
+}
+
+.friend-list ul {
+    padding-left: 10px;
+    list-style-type: none;
+}
+
+.friend-list a {
+    color: #817c7c;
+}
+
+.site-footer {
+    background: #1f1f1f;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 300;
+}
+
+.site-footer h1 {
+    text-align: center;
+    font-size: 24px;
+}
+
+.site-footer p {
+    text-align: center;
+}
+.g-container {
+    width: 90%;
+    margin: 0 auto 100px;
+}
+
+/*768px*/
+@media only screen and (min-width: 768px){
+    .motto {
+        font-size: 110%;
+    }
+
+    .site-name {
+        font-size: 240%;
+    }
+}
+/*1024px以后*/
+@media only screen and (min-width: 1024px){
+    .motto {
+        font-size: 120%;
+        line-height: 26px;
+    }
+
+    .site-name {
+        font-size: 280%;
+    }
+
+    .page-number {
+        display: inline-block;
+        padding: 10px;
+    }
+
+    .main-part {
+        float: left;
+        width: 75%;
+    }
+
+    .side-part {
+        float: right;
+        width: 18%;
+        margin-top: 40px;
+    }
+
+    .menu {
+        display: block;
+        float: right;
+        margin-top: 20px;
+    }
+
+    .menu ul li {
+        float: left;
+        display: inline-block;
+        margin-left: 36px;
+    }
+
+    .g-navbar {
+        display: none;
+    }
+}
+
+/*专门为viewarticle_personal.html写的前后篇的切换*/
+.set-color a{
+    color: #2ca6cb;
+    display: block;
+    transition: color 0.25s, background 0.5s;
+    font-size: 16px;
+    padding: 10px 0;
+}
+
+.set-color a:hover {
+    background: #2ca6cb;
+    color: white;
+    text-decoration: none;
+}
+
+.set-color strong, .set-color span {
+    line-height: 29px;
+}
+
+
+.g-pre {
+    float: left;
+    width: 45%;
+}
+
+.g-next {
+    float: right;
+    width: 45%;
+}
+
+.g-pre:hover {
+
+}
+
+.navbar-nav > li > a.kick {
+    padding-top: 7.8px;
+}
+
+.readmore, .readmore:hover {
+    color: #5bc0de;
+    text-decoration: underline;
+    margin-left: 0.714em;
+}

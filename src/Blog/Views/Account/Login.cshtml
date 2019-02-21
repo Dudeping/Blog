@@ -1,0 +1,50 @@
+﻿@model LoginModel
+@{
+    ViewBag.Title = "登录";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
+}
+
+<div class="central-area">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-header">
+            <h1>@ViewBag.Title</h1>
+        </div>
+
+        <div class="form-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "" })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input-box" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+            <label>密码<a href="/Account/ForgotPassword" class="forget">忘记密码?</a></label>
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "input-box" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+            <button type="submit" class="btn-primary btn" id="login-btn">登录</button>
+        </div>
+    }
+    <p class="create-account">
+        新来的?<a href="/Account/Register"> 创建一个账户</a>
+    </p>
+</div>
+
+@section LoadJS{
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+}

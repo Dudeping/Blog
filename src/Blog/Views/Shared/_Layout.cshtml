@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="KickUs,一个分享技术、生活、哲理的博客网站">
+    <meta name="author" content="Gaby, DepingDu">
+    <title>@(ViewBag.Title + " - KickUs")</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("LoadCss", false)
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand brand-icon" href="@Url.Action("Index", "Home", new { id = 1 })">
+                    <img src="~/icon/caticon.png" />
+                </a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home", new { id = 1 })">KickUs</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--page_content-->
+    @RenderBody()
+    @*<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript" SRC="https://seal.wosign.com/tws.js"></SCRIPT>*@
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script type="text/javascript" color="63,176,172" opacity='1' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+    <script>
+        @**统计访问量代码 *@
+        $.get("/Home/LookNumCount");
+        @**获取登录信息 *@
+        $(function () {
+            @if (string.IsNullOrWhiteSpace(ViewBag.searchStr)) {
+                if (string.IsNullOrWhiteSpace(ViewBag.BlogType))
+                {
+                    <text>
+                    $.get("/Home/LoginInfo", function (data) {
+                        $("#bs-example-navbar-collapse-1").html(data);
+                    });
+                    </text>
+                }
+                else
+                {
+                    <text>
+                    $.get("/Home/LoginInfo?blogType=@ViewBag.BlogType", function (data) {
+                        $("#bs-example-navbar-collapse-1").html(data);
+                    });
+                    </text>
+                }
+            }
+            else {
+                if (string.IsNullOrWhiteSpace(ViewBag.BlogType))
+                {
+                    <text>
+                    $.get("/Home/LoginInfo?SearchStr=@ViewBag.searchStr", function (data) {
+                        $("#bs-example-navbar-collapse-1").html(data);
+                    });
+                    </text>
+                }
+                else
+                {
+                    <text>
+                    $.get("/Home/LoginInfo?blogType=@ViewBag.BlogType&searchStr=@ViewBag.searchStr", function (data) {
+                        $("#bs-example-navbar-collapse-1").html(data);
+                    });
+                    </text>
+                }
+            }
+        });
+        @**百度推送代码 *@
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+    @RenderSection("LoadJS", false)
+
+</body>
+</html>

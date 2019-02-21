@@ -1,0 +1,20 @@
+namespace BlogPlus.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class ChangeUser : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.UserLogins", "Gog", c => c.Boolean(nullable: false));
+            DropColumn("dbo.Blogs", "Fabulou");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.Blogs", "Fabulou", c => c.Int(nullable: false));
+            DropColumn("dbo.UserLogins", "Gog");
+        }
+    }
+}

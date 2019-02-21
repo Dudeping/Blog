@@ -1,0 +1,81 @@
+﻿@model IPagedList<BlogCollection>
+@{
+    ViewBag.Title = "收藏";
+}
+
+@section LoadCss{
+    <link href="~/css/blog_manager.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <div class="col-gy-4">
+            <nav class="menu">
+                <h3 class="menu-header">操作</h3>
+                <a href="/ManageBlogs/Index?type=Jotting" class="menu-item">管理随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="menu-item">管理文章</a>
+                <a href="@Url.Action("Index","Settings")" class="menu-item">设置</a>
+            </nav>
+        </div>
+
+        <div class="main-area col-gy-8">
+            <div class="sub-header">
+                <a href="/ManageBlogs/Index?type=Jotting" class="header-item">随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="header-item">文章</a>
+                <a href="@Url.Action("Index", "ManageCollection")" class="selected header-item">收藏</a>
+                <a href="@Url.Action("Index","Settings")" class="header-item">设置</a>
+            </div>
+
+            <div class="main-content">
+                <div class="post-list">
+                    <div id="HandleDiv" hidden="hidden" style="color:red; text-align:center;">正在操作...</div>
+                    <table>
+                        <tbody>
+                            <tr class="post-header">
+                                <th class="post-title">标题</th>
+                                <th>作者</th>
+                                <th>最后修改</th>
+                                <th class="post-view">阅读数</th>
+                                <th>移除</th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="interval">
+                                    <td><a href="@Url.Action("BlogDetails", "Users", new {id=item.Id})" target="_blank">@item.Title</a></td>
+                                    <td><a target="_blank" href="@Url.Action("Index", "Users", new { id = item.Author.Id })">@item.Author.NickName</a></td>
+                                    <td>@item.EidtTime.ToShortDateString()</td>
+                                    <td><span class="page-view">@item.LookNum</span></td>
+                                    <td>
+                                        @Ajax.ActionLink("移除", "Delete", new { id = item.CId}, new AjaxOptions { Confirm="确定要移除该收藏么?", HttpMethod="POST", LoadingElementDuration=500, LoadingElementId="HandleDiv", OnFailure="HandleFailure", OnSuccess="HandleSuccess"}, new { @class = "delete" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (Model.Count() == 0)
+                {
+
+                }
+                else
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page}), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function HandleFailure() {
+            alert("处理失败!");
+        }
+        function HandleSuccess() {
+            alert("移除成功!");
+            location.reload();
+        }
+    </script>
+}

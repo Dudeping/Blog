@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "出错了";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section LoadCss{
+<link href="~/css/mainpage.css" rel="stylesheet" />
+<link href="~/css/unexpected_page.css" rel="stylesheet" />
+    }
+
+<div class="un-page-content clearfix">
+    <div class="logo-part">
+        <img src="~/icon/error.png" class="logo-standard" />
+    </div>
+    <div class="details-part">
+        <h1>出错了!</h1>
+        <ul>
+            <li><a href="@Url.Action("Feedback", "Users")">意见反馈</a></li>
+            <li><a href="@Url.Action("Index", "Home")">网站首页</a></li>
+        </ul>
+    </div>
+</div>
+
+@section LoadJS{
+<script src="~/js/gscript.js"></script>
+    }

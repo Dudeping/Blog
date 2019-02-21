@@ -1,0 +1,106 @@
+﻿@model ModUser
+@{
+    ViewBag.Title = "设置";
+}
+
+@section LoadCss{
+    <link href="~/css/blog_manager.css" rel="stylesheet" />
+    <link href="~/css/profile_set.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <div class="col-gy-4">
+            <nav class="menu">
+                <h3 class="menu-header">操作</h3>
+                <a href="/ManageBlogs/Index?type=Jotting" class="menu-item">管理随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="menu-item">管理文章</a>
+                <a href="/ManageCollection/Index" class="menu-item">管理收藏</a>
+                <a href="/Account/ChangePassword" class="menu-item">修改密码</a>
+            </nav>
+        </div>
+
+        <div class="main-area col-gy-8">
+            <div class="sub-header">
+                <a href="/ManageBlogs/Index?type=Jotting" class="header-item">随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="header-item">文章</a>
+                <a href="/ManageCollection/Index" class="header-item">收藏</a>
+                <a href="/Settings/Index" class="selected header-item">设置</a>
+            </div>
+
+            <div class="set-part">
+                <div class="set-title">
+                    <h1>资料设置</h1>
+                </div>
+                @using (Html.BeginForm("Edit", "Settings", FormMethod.Post, new { @class = "clearfix", enctype = "multipart/form-data" }))
+                {
+                    <div class="user-details">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger"})
+                            <dl>
+                                <dt>@Html.LabelFor(model => model.NickName)</dt>
+                                <dd>
+                                    <input class="input-box" data-val="true" data-val-length="标题应该在2-255位之间!" data-val-length-max="255" data-val-length-min="2" data-val-required="昵称为必填项!" id="NickName" name="NickName" type="text" value="@Model.NickName" />
+                                </dd>
+                                @Html.ValidationMessageFor(model => model.NickName, "", new { @class = "text-danger" })
+                            </dl>
+
+                            <dl>
+                                <dt>邮箱</dt>
+                                <dd>
+                                    <input type="email" class="input-box" disabled="disabled" value="@User.Identity.Name" />
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt>@Html.LabelFor(model => model.Belief)</dt>
+                                <dd>
+                                    @Html.TextAreaFor(model => model.Belief, 4, 10, new { @class = "input-box", placeholder = "说出你喜欢的至理名言，我们将为你显示在你的博客主页" })
+                                </dd>
+                                @Html.ValidationMessageFor(model => model.Belief, "", new { @class = "text-danger" })
+                            </dl>
+
+                            <dl>
+                                <dt><label>学校 <p class="prompt">(请填写学校英文简写,如:SICAU)</label></dt>
+                                <dd>
+                                    @Html.EditorFor(model => model.SchoolName, new { htmlAttributes = new { @class = "input-box", id = "user-school" } })
+                                </dd>
+                                @Html.ValidationMessageFor(model => model.SchoolName, "", new { @class = "text-danger" })
+                            </dl>
+
+                            <dl>
+                                <dt><label>友情链接 <p class="prompt">(此处的链接将会展示到你的博客首页的侧边栏)</p></label></dt>
+                                <dd>
+                                    @Html.EditorFor(model => model.FriendLink1, new { htmlAttributes = new { @class = "input-box", id = "friend-link", placeholder = "格式:链接文本-----链接地址" } })
+                                    @Html.EditorFor(model => model.FriendLink2, new { htmlAttributes = new { @class = "input-box", placeholder = "格式:链接文本-----链接地址" } })
+                                    @Html.EditorFor(model => model.FriendLink3, new { htmlAttributes = new { @class = "input-box", placeholder = "如:百度-----http://www.ydath.cn" } })
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dd>
+                                    @Html.CheckBoxFor(model => model.IsPubulish, new { id = "if-public" })
+                                    @Html.Label("if-public", "是否公开个人信息")
+                                </dd>
+                            </dl>
+
+                            <button type="submit" class="btn btn-primary">更新资料</button>
+                    </div>
+
+                    <dl class="user-avatar">
+                        <dt><label>头像</label></dt>
+                        <dd>
+                            <img src="@Model.PicLink" alt="头像">
+                            <input type="file" name="PicLink" class="upload-avatar">
+                        </dd>
+                    </dl>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}

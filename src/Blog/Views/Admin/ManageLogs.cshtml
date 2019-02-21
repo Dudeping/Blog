@@ -1,0 +1,90 @@
+﻿@model IPagedList<Log>
+@{
+    ViewBag.Title = "日志记录";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    string typeSelect = ViewBag.LogType == null ? "全部" : ViewBag.LogType == LogType.add.ToString() ? "添加博客" : ViewBag.LogType == LogType.danger.ToString() ? "高危操作" : ViewBag.LogType == LogType.error.ToString() ? "系统报错" : ViewBag.LogType == LogType.login.ToString() ? "登录" : ViewBag.LogType == LogType.register.ToString() ? "注册" : "全部";
+}
+
+@section LoadCss{
+    <link href="~/css/backend-general.css" rel="stylesheet" />
+}
+
+<div class="page-content">
+    <div class="center-element">
+        <h1 class="header g-inline">日志记录</h1>
+        <div class="btn-group g-inline vertical-align">
+            <button type="button" class="btn btn-success btn-xs">@typeSelect</button>
+            <button type="button" class="btn btn-success dropdown-toggle btn-xs horizontal-padding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="/Admin/ManageLogs?logType=all">全部</a></li>
+                <li><a href="/Admin/ManageLogs?logType=@LogType.login.ToString()">登录</a></li>
+                <li><a href="/Admin/ManageLogs?logType=@LogType.register.ToString()">注册</a></li>
+                <li><a href="/Admin/ManageLogs?logType=@LogType.add.ToString()">添加博客</a></li>
+                <li><a href="/Admin/ManageLogs?logType=@LogType.error.ToString()">系统报错</a></li>
+                <li><a href="/Admin/ManageLogs?logType=@LogType.danger.ToString()">高危操作</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <table>
+        <tr class="be-post-header">
+            <th>标题</th>
+            <th>操作者</th>
+            <th>IP地址</th>
+            <th>IP所在地区</th>
+            <th>操作时间</th>
+            <th>操作</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td data-label="标题">@item.Title</td>
+                <td data-label="操作者">@item.User</td>
+                <td data-label="IP地址">@item.Ip</td>
+                <td data-label="IP所在地区">@item.IpLocation</td>
+                <td data-label="操作时间">@item.CreateTime</td>
+                <td>
+                    <a href="#" data-toggle="modal" data-target="#view-feeback_@item.Id" type="button">查看</a>
+                    <!-- 查看内容的模态框 -->
+                    <div class="modal fade" id="view-feeback_@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">@item.Title</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @Html.Raw(item.Content)
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="5">
+                @if (!Model.Any())
+                {
+
+                }
+                else
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("ManageLogs", new { page, logType = ViewBag.LogType }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section LoadJS{
+    <script src="~/js/backend_scripts.js"></script>
+}

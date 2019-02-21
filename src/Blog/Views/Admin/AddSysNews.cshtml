@@ -1,0 +1,84 @@
+﻿@model SysNews
+@{
+    ViewBag.Title = "添加公告";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section LoadCss{
+<link href="~/css/blog_manager.css" rel="stylesheet" />
+<link href="~/css/backend-general.css" rel="stylesheet" />
+<link href="~/dist/css/wangEditor.min.css" rel="stylesheet" />
+<link href="~/css/post_edit.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <h1 class="header">发布公告</h1>
+        <div class="col-gy-4">
+            <nav class="menu">
+                <h3 class="menu-header">操作</h3>
+                <a href="/Admin/ManageSysNews" class="menu-item">历史公告</a>
+            </nav>
+        </div>
+
+        <div class="main-area col-gy-8">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="main-content g-loc">
+                    <div class="edit-part">
+                        <div class="post-title">
+                            @Html.LabelFor(model => model.Title)
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "input-box"} })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class="text-danger"})
+                        </div>
+
+                        <div class="edit-area">
+                            @Html.TextAreaFor(model => model.Content, 20, 10, new { id = "ref-wangEditor" } )
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="post-option">
+                            <input type="submit" id="just-post" value="发布">
+                            <input type="submit" onclick="location.href='/Admin/ManageSysNews'" id="save-asdraft" value="取消">
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/dist/js/wangEditor.min.js"></script>
+
+<script type="text/javascript">
+    // 获取元素
+    var textArea = document.getElementById('ref-wangEditor');
+    //关闭 Log
+    wangEditor.config.printLog = false;
+    // 生成编辑器
+    var editor = new wangEditor(textArea);
+    // 自定义表情
+    editor.config.emotions = {
+        'default': {
+            title: '默认',
+            data: 'https://blog.ydath.cn/Emoji/emotions.data'
+        }
+    };
+    // 取消粘贴过滤
+    editor.config.pasteFilter = false;
+
+        // 文件上传配置
+        editor.config.uploadImgUrl = '/ManageBlogs/UploadImg';// 配置上传路径
+        editor.config.uploadImgFileName = 'BlogPlusImg'; // 配置统一Name
+        editor.config.uploadParams = { usrId: '@User.Identity.Name' }; // 配置自定义参数
+        editor.config.uploadHeaders = { 'Accept': 'text/x-json' };     // 设置headers
+    editor.create();
+</script>
+}

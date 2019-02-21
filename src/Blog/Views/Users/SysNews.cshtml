@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "未读消息";
+    var feedback = (IEnumerable<FBLetter>)ViewBag.FeelBack;
+    var sysNews = (IEnumerable<SysNews>)ViewBag.SysNews;
+}
+
+@section LoadCss{
+    <link href="~/css/blog_manager.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <div class="col-gy-4">
+            <nav class="menu">
+                <h3 class="menu-header">操作</h3>
+                @if (ViewBag.SysNewsNum > 0)
+                {
+                    <a href="/Users/SysNews" class="menu-item">未读消息<span class="glyphicon glyphicon-bell prompt-icon"></span><span class="new-message">@ViewBag.SysNewsNum</span></a>
+                }
+                <a href="/Users/Message" class="menu-item">已读消息</a>
+                <a href="/Users/Feedback" class="menu-item">意见反馈</a>
+                <a href="/ManageBlogs/Index?type=Jotting" class="menu-item">管理随笔</a>
+            </nav>
+        </div>
+
+        <div class="main-area col-gy-8">
+            <div class="sub-header">
+                <a href="/Users/SysNews" class="selected header-item">消息</a>
+                <a href="/ManageBlogs/Index?type=Jotting" class="header-item">随笔</a>
+                <a href="/Settings/Index" class="header-item">设置</a>
+            </div>
+
+            <div class="main-content">
+                <div class="post-list">
+                    <div hidden="hidden" id="HandleDiv" style="text-align:center; color:red;">
+                        正在处理...
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr class="post-header">
+                                <th class="post-title">消息</th>
+                                <th class="short-th">发件人</th>
+                                <th class="short-th">操作</th>
+                                <th>操作</th>
+                            </tr>
+                            @foreach (var item in sysNews)
+                            {
+                                <tr class="interval">
+                                    <td>
+                                        <a href="#" data-toggle="modal" data-target="#view-sysnews_@item.Id" type="button">@item.Title</a>
+                                        <!-- 查看内容的模态框 -->
+                                        <div class="modal fade" id="view-sysnews_@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">@item.Title</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @Html.Raw(item.Content)
+                                                        <p> -- admin</p>
+                                                        <p>@item.CreateTime.ToShortDateString()</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td><span class="msg-state">admin</span></td>
+                                    <td>@Ajax.ActionLink("标记已读", "TabSysIsRead", new { id = item.Id }, new AjaxOptions { HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "status chg" })</td>
+                                    <td><a href="#" onclick="alert('暂无法删除公告信息!'); return false;" class="delete">删除</a></td>
+                                </tr>
+                            }
+                            @foreach (var item in feedback)
+                            {
+                                <tr class="interval">
+                                    <td>
+                                        <a href="#" data-toggle="modal" data-target="#view-feeback_@item.Id" type="button">@item.Title</a>
+                                        <!-- 查看内容的模态框 -->
+                                        <div class="modal fade" id="view-feeback_@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">@item.Title</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>&nbsp; &nbsp; @Html.Raw(item.Content)</p>
+                                                        <br><p></p>
+                                                        <p> -- admin</p>
+                                                        <p>@item.CreateTime.ToShortDateString()</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td><span class="msg-state">admin</span></td>
+                                    <td>@Ajax.ActionLink("标记已读", "TabFeedIsRead", new { id = item.Id }, new AjaxOptions { HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "status chg" })</td>
+                                    <td>@Ajax.ActionLink("删除", "DeleteReply", new { id = item.Id }, new AjaxOptions { HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "delete" })</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function HandleFailure() {
+            alert("处理失败!");
+        }
+        function HandleSuccess() {
+            alert("操作成功!");
+            location.reload();
+        }
+    </script>
+}

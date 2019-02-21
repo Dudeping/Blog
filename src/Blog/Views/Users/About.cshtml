@@ -1,0 +1,112 @@
+﻿@{
+    var usrInfo = (User)ViewBag.UserInfo;
+    ViewBag.Title = "关于我";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    double lookNum = usrInfo.BlogLookNum;
+}
+
+@section LoadCss{
+    <link href="~/css/aboutme_per.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="dashborad">
+
+        <div class="user-static clearfix">
+            <div class="g-col-2">
+                <span class="number essay">@usrInfo.JottingNum</span>
+                随笔
+            </div>
+
+            <div class="g-col-2">
+                <span class="number article">@usrInfo.ArticleNum</span>
+                文章
+            </div>
+
+            <div class="g-col-3">
+                <span class="number influence">~ @(Math.Floor(lookNum/5)+usrInfo.LookNum)</span>
+                已影响
+            </div>
+
+            <div class="g-col-5">
+                <span class="number viewed">
+                    @if (lookNum/1000 > 0.1)
+                    {
+                        lookNum = Math.Floor(lookNum/100)/10;
+                        @lookNum
+                        <span style="display: inline">k</span>
+                    }
+                    else
+                    {
+                        @lookNum
+                    }
+                </span>
+                文章浏览量
+            </div>
+        </div>
+
+        <div class="user-overview">
+            <ul>
+                <li><span class="glyphicon glyphicon-map-marker"></span><span class="school">@usrInfo.SchoolName</span></li>
+                <li>
+                    <span class="glyphicon glyphicon-time"></span>已加入
+                    <span class="user-duration">
+                        @{ 
+                            var dateTime = DateTime.Now - usrInfo.JoinTime;
+                            int days = (int)dateTime.TotalDays;
+                            int hours = (int)dateTime.TotalHours;
+                            int minutes = (int)dateTime.TotalMinutes;
+                            int seconds = (int)dateTime.TotalSeconds;
+                        }
+                        @if (days / 356 > 0)
+                        {
+                            var years = (days / 356);
+                            <span>@years 年</span>
+                        }
+                        else if (days / 30 > 0)
+                        {
+                            var month = (days / 30);
+                            <span>@month 个月</span>
+                        }
+                        else if(days > 1)
+                        {
+                            <span>@days 天</span>
+                        }
+                        else if(hours > 1)
+                        {
+                            <span>@hours 小时</span>
+                        }
+                        else if(minutes > 1)
+                        {
+                            <span>@minutes 分钟</span>
+                        }
+                        else
+                        {
+                            <span>@seconds 秒</span>
+                        }
+                    </span>
+                </li>
+                <li><span class="glyphicon glyphicon-eye-open"></span>该页面已被浏览<span class="user-duration"> @usrInfo.LookNum 次</span></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="top-tags">
+        <h1>Top Categories</h1>
+        <div class="tag-list">
+            <ul>
+                @foreach (var item in (List<Category>)ViewBag.Categories)
+                {
+                    <li><a href="@Url.Action("Category", "Users", new { id = item.Id })"> @item.Name (@item.BlogCount) </a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="contact">
+        <h1>联系我</h1>
+        <span class="user-email">@usrInfo.Email</span>
+    </div>
+
+</div>

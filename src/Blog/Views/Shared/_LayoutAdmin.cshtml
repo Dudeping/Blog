@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title -- KickUs</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/mainpage.css" rel="stylesheet" />
+    @RenderSection("LoadCss", false)
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand brand-icon" target="_blank" href="@Url.Action("Index", "Home")">
+                    <img src="~/icon/caticon.png" />
+                </a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Admin")">KickUs</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="@Url.Action("ManageBLogs", "Admin")">博客管理</a></li>
+                    <li><a href="@Url.Action("ManageCategories", "Admin")">类别管理</a></li>
+                    <li><a href="@Url.Action("ManageSysNews", "Admin")">公告管理</a></li>
+                    <li><a href="@Url.Action("ManageUsers", "Admin")">用户管理</a></li>
+                    <li><a href="@Url.Action("Feedback", "Admin")">意见反馈</a></li>
+                    <li><a href="@Url.Action("ManageLogs", "Admin")">日志记录</a></li>
+                    <li><a href="@Url.Action("GetPic", "Admin")">获取图片</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle kick" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="~/icon/avatar.png" />
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li><a target="_blank" href="@Url.Action("Index", "Home", new { id = 1})">网站首页</a></li>
+                            <li><a href="/ManageBlogs/Index?type=Jotting">博客管理</a></li>
+                            <li><a href="/Account/Logout">注销</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--page_content-->
+
+    @RenderBody()
+
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+
+    @RenderSection("LoadJS", false)
+    <script>
+        $.get("/Home/LookNumCount");
+    </script>
+</body>
+</html>

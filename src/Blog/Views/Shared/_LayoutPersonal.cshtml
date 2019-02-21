@@ -1,0 +1,79 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="KickUs,一个分享技术、生活、哲理的博客网站">
+    <meta name="author" content="Gaby, DepingDu">
+
+    <title>@ViewBag.Title</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("LoadCss", false)
+</head>
+<body>
+    <!--头部-->
+    <header>
+        @{
+            var usrInfo = (User)ViewBag.UserInfo;
+        }
+        <div class="clearfix">
+            <div class="user-avatar">
+                <a href="@Url.Action("Index", "Users", new {id=usrInfo.Id})">
+                    <img src="@usrInfo.PicLink" class="cut-circle" alt="">
+                </a>
+            </div>
+
+            <div class="user-introduction">
+                <h1 class="site-name"><span class="user-name" onclick="location.href='@Url.Action("Index", "Users", new {id=usrInfo.Id})'">@usrInfo.NickName</span></h1>
+                <h2 class="motto">@(usrInfo.Belief ?? "这里应该是你的人生信条, 请到设置页面进行填写!")</h2>
+            </div>
+
+            <div class="g-navbar">
+                <a href="#"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+            </div>
+
+            <div class="menu">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home", new { id = 1 })">网站首页</a></li>
+                    <li><a href="@Url.Action("Index", "Users", new{id=usrInfo.Id})">博客首页</a></li>
+                    <li><a href="/ManageBlogs/Index?type=Jotting">博客管理</a></li>
+                    <li><a href="@Url.Action("About", "Users", new { id = @usrInfo.Id})">关于</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </header>
+
+    <!--主体-->
+    @RenderBody()
+
+    <div class="site-footer">
+        <h1 style="margin:10px 0 5px 0">Talk is cheap,show me the code!</h1>
+        <p style="margin:0 0 3px 0; font-size:12px">
+            © 2017 - @DateTime.Now.Year, <a href="http://www.cnblogs.com/gabygoole" target="_blank">Gaby</a> And <a href="http://www.ydath.cn/" target="_blank">DepingDu</a> . All rights reserved
+        </p>
+    </div>
+
+    <script src="~/js/jquery-3.1.1.min.js"></script>
+    <script src="~/js/stretch.js"></script>
+    <script type="text/javascript" color="63,176,172" opacity='1' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+    @RenderSection("LoadJS", false)
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+        $.get("/Home/LookNumCount");
+    </script>
+</body>
+</html>

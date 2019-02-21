@@ -1,0 +1,101 @@
+﻿@model IPagedList<AdminManageBlog>
+@{
+    ViewBag.Title = "博客管理";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section LoadCss{
+<link href="~/css/backend-general.css" rel="stylesheet" />
+}
+
+<div class="page-content">
+    <h1 class="header">博客管理</h1>
+    <form action="/Admin/ManageBlogs" method="get">
+        <input type="text" name="searchStr" value="@ViewBag.SearchStr" placeholder="键入博客名搜索..." class="form-control gsearch-box">
+    </form>
+    <div id="HandleDiv" hidden="hidden" style="color:red; text-align:center; font-size:14px;">
+        正在处理中...
+    </div>
+    <table>
+        <tr class="be-post-header">
+            <th>博文名</th>
+            <th>类别</th>
+            <th>类型</th>
+            <th>作者</th>
+            <th>最后修改</th>
+            <th class="short-th">浏览量</th>
+            <th class="short-th">设置</th>
+            <th class="short-th">设置</th>
+            <th class="short-th">操作</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td data-label="博文名"><a target="_blank" href="@Url.Action("BlogDetails", "Users", new {id=item.Id})">@item.Title</a></td>
+                <td data-label="类别">
+                    <select onchange="ChangeCategory(this.value)" style="border-radius:4px">
+                        <option>选择类别</option>
+                        @{ 
+                            var _category = item.Category == null ? "" : item.Category.Name;
+                        }
+                        @foreach (var category in (List<Category>)ViewBag.Categories)
+                        {
+                            <option @(category.Name==_category?"selected":"") value="@item.Id,@category.Id">@category.Name</option>
+                        }
+                    </select>
+                </td>
+                @if (item.BlogType == BlogType.Article.ToString())
+                {
+                    <td data-label="类型">文章</td>
+                }
+                else
+                {
+                    <td data-label="类型">随笔</td>
+                }
+                <td data-label="作者"><a target="_blank" href="@Url.Action("Index", "Users", new {id=item.Author.Id})">@item.Author.NickName</a></td>
+                <td data-label="最后修改">@item.EidtTime.ToShortDateString()</td>
+                <td data-label="浏览量">@item.LookNum</td>
+                <td data-label="设置">@Ajax.ActionLink("不公开", "SetPrivateBlog", new { id = item.Id }, new AjaxOptions { Confirm = "确定将该博客设置为不公开么?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "g-btn reply" })</td>
+                @if (item.IsPush)
+                {
+                    <td data-label="设置">@Ajax.ActionLink("移除首页", "RemoveHome", new { id = item.Id }, new AjaxOptions { Confirm = "确定将该移除首页?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "g-btn reply" })</td>
+                }
+                else
+                {
+                    <td data-label="设置"><a class="g-btn reply">不在首页</a></td>
+                }
+                <td data-label="操作">@Ajax.ActionLink("删除", "DeleteBlog",new { id = item.Id }, new AjaxOptions { Confirm = "确定删除该博客?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "g-btn delete" })</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="8">
+                @if (!Model.Any())
+                {
+
+                }
+                else
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("ManageBlogs", new { page, searchStr = (string.IsNullOrWhiteSpace(ViewBag.SearchStr) == false ? null : ViewBag.SearchStr) }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section LoadJS{
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/js/backend_scripts.js"></script>
+    <script>
+        function HandleFailure() {
+            alert("操作失败!");
+        }
+        function HandleSuccess() {
+            alert("处理成功!");
+            location.reload();
+        }
+        function ChangeCategory(value) {
+            var parameters = value.split(',');
+            location.href = "/Admin/AddBlogToCategory?blogId=" + parameters[0] + "&categoryId=" + parameters[1] + "&page=@ViewBag.Page";
+        }
+    </script>
+}

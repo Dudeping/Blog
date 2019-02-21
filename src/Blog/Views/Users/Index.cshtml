@@ -1,0 +1,79 @@
+﻿@model IPagedList<ShowBlog>
+@{
+    var usrInfo = (User)ViewBag.UserInfo;
+    ViewBag.Title = ViewBag.Title ?? "个人首页 - " + usrInfo.NickName;
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+@section LoadCss{
+    <link href="~/css/personal.css" rel="stylesheet" />
+}
+
+<div class="g-container clearfix">
+    <div class="main-part">
+        @foreach (var item in Model)
+        {
+            <article>
+                <h1><a href="@Url.Action("BlogDetails", "Users", new {id=item.Id})">@item.Title</a></h1>
+                <div class="article-content">
+                    <p>摘要：@item.Brief <a class="readmore" href="@Url.Action("BlogDetails", "Users", new {id=item.Id})">查看更多 >></a></p>
+                </div>
+                <div class="article-footer">
+                    <span class="glyphicon glyphicon-upload"></span>
+                    <span class="post-date">@item.CreateTime.ToShortDateString()</span>
+                    <span class="glyphicon glyphicon-eye-open loc"></span>
+                    <span class="collected">@item.LookNum</span>
+                    <span class="glyphicon glyphicon-star loc"></span>
+                    <span class="collected">@item.CollectionTimes</span>
+                    @if (item.BlogType == BlogType.Article.ToString())
+                    {
+                        <span class="article">文章</span>
+                    }
+                    else
+                    {
+                        <span class="essay">随笔</span>
+                    }
+                </div>
+            </article>
+        }
+
+        <nav class="g-pagination clearfix">
+            @if (!Model.Any())
+            {
+
+            }
+            else
+            {
+                @(ViewBag.usrId != null ? Html.PagedListPager(Model, page => Url.Action("SearchTag", new { page, ViewBag.searchTag, usrId = ViewBag.UsrId }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                    : ViewBag.CategoryId != null? Html.PagedListPager(Model, page => Url.Action("Category", new { id = ViewBag.CategoryId, page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                    : Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime))
+            }
+        </nav>
+
+    </div>
+
+    <div class="side-part">
+        <div class="tag-list">
+            <h1>博客分类</h1>
+            <ul>
+                @foreach (var item in (List<Category>)ViewBag.Categries)
+                {
+                    <li><a href="@Url.Action("Category", "Users", new { id = item.Id, page = 1 })">@item.Name<span title="博客数" class="badge">@item.BlogCount</span></a></li>
+                }
+            </ul>
+        </div>
+
+        <div class="friend-list">
+            <h1>友情链接</h1>
+            <ul>
+                @foreach (var item in usrInfo.FriendLink.Split(new[] { "@@@@@" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var link = item.Trim(' ').Split(new[] { "-----" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    <li><a target="_blank" href="@link[1].Trim(' ')">@link[0].Trim(' ')</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+</div>

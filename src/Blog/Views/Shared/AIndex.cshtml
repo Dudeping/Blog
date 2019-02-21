@@ -1,0 +1,182 @@
+﻿@model IPagedList<ShowBlog>
+@{
+    ViewBag.Title = ViewBag.Title ?? "KickUs -- 一个干货满满的技术论坛";
+    ViewBag.searchStr = ViewBag.searchStr ?? "";
+}
+@section LoadCss{
+    <link href="~/css/mainpage.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
+
+<div class="page-content clearfix">
+    <div class="main-part">
+        <ul class="posts">
+            @foreach (var item in Model)
+            {
+                <li class="post-item">
+                    <a href="@Url.Action("BlogDetails", "Users", new{id = item.Id})">@item.Title</a>
+                    <p>摘要：@item.Brief <a href="@Url.Action("BlogDetails", "Users", new{id = item.Id})" class="readmore">阅读更多»</a></p>
+                    <div class="post-footer">
+                        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                        <span class="date">@item.CreateTime.ToShortDateString()</span>
+                        <span class="glyphicon glyphicon-eye-open loc"></span>
+                        <span class="post-view">@item.LookNum</span>
+                        @*<span class="glyphicon glyphicon-star loc"></span>
+                            <span class="collected">0</span>*@
+                        <span class="glyphicon glyphicon-user loc"></span>
+                        <a class="user-name" target="_blank" href="@Url.Action("Index", "Users", new{id = item.AuthorId})">@item.Author</a>
+                        @if (item.BlogType == BlogType.Article.ToString())
+                        {
+                            <span class="article">文章</span>
+                        }
+                        else
+                        {
+                            <span class="essay">随笔</span>
+                        }
+
+                        @*提速：原始7s -> 加入Include("Tags")3.5s ->删掉Tags显示1.5s -> 缓存130ms*@
+
+                        @*<span class="glyphicon glyphicon-star-empty loc"></span>
+                            @foreach (var tag in item.Tags.OrderByDescending(p => p.Id))
+                            {
+                                <a href="/Users/SearchTag?searchStr=@HttpUtility.UrlEncode(tag.Name, System.Text.Encoding.UTF8)">@tag.Name</a>
+                            }*@
+                    </div>
+                </li>
+            }
+        </ul>
+        @if (!Model.Any())
+        {
+
+        }
+        else
+        {
+            if (ViewBag.CategoryId != null)
+            {
+                @Html.PagedListPager(Model, page => Url.Action("Category", "Users", new { id = ViewBag.CategoryId, page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+            }
+            else
+            {
+                @(string.IsNullOrWhiteSpace(ViewBag.searchStr) ? Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { id = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime) : Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { id = page, ViewBag.searchStr }), PagedListRenderOptions.OnlyShowFivePagesAtATime))
+            }
+        }
+    </div>
+    <div class="sidepart">
+        <div class="tag-list">
+            <h4>博客类别</h4>
+            <ul>
+                @foreach (var item in (List<Category>)ViewBag.Categries)
+                {
+                    <li><a href="@Url.Action("Category", "Users", new { id = item.Id, page = 1 })">@item.Name<span title="博客数" class="badge">@item.BlogCount</span></a></li>
+                }
+            </ul>
+
+        </div>
+
+        @if (ViewBag.GroomBlog != null)
+        {
+            <div class="groomblogs">
+                <h4>推荐的博客</h4>
+                <ul>
+                    @{
+                        var GroomBlogList = ViewBag.GroomBlog as List<ManageBlog>;
+                        foreach (var item in GroomBlogList)
+                        {
+                            <li>
+                                <a href="@Url.Action("BlogDetails", "Users", new { id = item.Id })" target="_blank" title="浏览量：@item.LookNum" >@item.Title</a>
+
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+
+        <div class="websites">
+            <h4>推荐的网站</h4>
+            <div class="icon">
+                <a href="https://github.com/" target="_blank"><img src="~/icon/github.png" /></a>
+                <a href="https://zhihu.com/" target="_blank"><img src="~/icon/zhihu.ico" alt=""></a>
+                <a href="https://douban.com/" target="_blank"><img src="~/icon/douban.png" alt=""></a>
+                <a href="http://music.163.com/" target="_blank"><img src="~/icon/163_logo.jpg" alt=""></a>
+                <a href="https://bilibili.com/" target="_blank"><img src="~/icon/bili.ico" alt=""></a>
+            </div>
+        </div>
+        <div class="books">
+            <!--再复习下这里的布局-->
+            <h4>推荐的书籍</h4>
+            <ul>
+                <li>《白夜行》</li>
+                <li>《活着》</li>
+                <li>《沉默的大多数》</li>
+                <li>《解忧杂货店》</li>
+                <li>《文化苦旅》</li>
+                <li>《山居笔记》</li>
+            </ul>
+        </div>
+        <div class="tvshows">
+            <h4>推荐的剧</h4>
+            <ul>
+                <li>《权力的游戏》</li>
+                <li>《绝命毒师》</li>
+                <li>《钢之炼金术师》</li>
+                <li>《四月是你的谎言》</li>
+                <li>《命运石之门》</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="column">
+        <h4><a class="title">就业方向</a></h4>
+        <ul class="items">
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=PHP">PHP</a></li>
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=.NET">.NET</a></li>
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=Java">Java</a></li>
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=C%2B%2B">C++</a></li>
+        </ul>
+    </div>
+    <div class="column">
+        <h4><a class="title">院系专业</a></h4>
+        <ul class="items">
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=%E7%89%A9%E8%81%94%E7%BD%91">物联网</a></li>
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=%E4%BF%A1%E6%81%AF%E7%A7%91%E5%AD%A6">信息科学</a></li>
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86">信息管理</a></li>
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%8E%E6%8A%80%E6%9C%AF">计算机科学与技术</a></li>
+        </ul>
+    </div>
+    <div class="column">
+        <h4><a class="title">友情链接</a></h4>
+        <ul class="items">
+            <li><a target="_blank" href="http://jiaowu.sicau.edu.cn">教务网</a></li>
+            <li><a target="_blank" href="http://www.sicau.edu.cn">学校官网</a></li>
+            <li><a target="_blank" href="http://xxgc.sicau.edu.cn">信工院网</a></li>
+            <li><a target="_blank" href="http://jjxy.sicau.edu.cn/">经管院网</a></li>
+        </ul>
+    </div>
+    <div class="column">
+        <h4><a class="title">知名社区</a></h4>
+        <ul class="items">
+            <li><a target="_blank" href="http://www.php1.cn/">PHP社区</a></li>
+            <li><a target="_blank" href="https://www.w3cplus.com/">W3cPlus</a></li>
+            <li><a target="_blank" href="http://www.html-js.com/">前端乱炖</a></li>
+            <li><a target="_blank" href="http://ruby-china.org/">Ruby中国</a></li>
+        </ul>
+    </div>
+
+    <div class="column">
+        <h4><a class="title">效率工具</a></h4>
+        <ul class="items">
+            <li><a target="_blank" href="https://www.toggl.com/">Toggl</a></li>
+            <li><a target="_blank" href="https://www.baidu.com/s?wd=Vimium">Vimium</a></li>
+            <li><a target="_blank" href="http://www.investopedia.com/terms/m/momentum.asp">Momentum</a></li>
+            <li><a target="_blank" href="http://tampermonkey.net/">Tampermonkey</a></li>
+        </ul>
+    </div>
+
+</div>
+
+@section LoadJS{
+    <script src="~/js/gscript.js"></script>
+}

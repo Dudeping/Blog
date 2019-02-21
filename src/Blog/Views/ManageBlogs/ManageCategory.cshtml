@@ -1,0 +1,110 @@
+﻿@model CategoryModel
+@{
+    ViewBag.Title = "管理类别";
+}
+
+@section LoadCss{
+    <link href="~/css/blog_manager.css" rel="stylesheet" />
+}
+
+<div class="g-container">
+    <div class="page-content clearfix">
+        <div class="col-gy-4">
+            <nav class="menu">
+                <h3 class="menu-header">操作</h3>
+                <a href="/ManageBlogs/Index?type=Jotting" class="menu-item">管理随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="menu-item">管理文章</a>
+            </nav>
+        </div>
+
+        <div class="main-area col-gy-8">
+            <div class="sub-header">
+                <a href="/ManageBlogs/Index?type=Jotting" class="header-item">随笔</a>
+                <a href="/ManageBlogs/Index?type=Article" class="header-item">文章</a>
+                <a href="/ManageBlogs/ManageCategory" class="selected header-item">类别管理</a>
+                <a href="@Url.Action("Index", "ManageCollection")" class="header-item">收藏</a>
+                <a href="@Url.Action("Index", "Settings")" class="header-item">设置</a>
+            </div>
+
+            <div class="main-content">
+
+                <div class="post-list">
+                    <div id="HandleDiv" hidden="hidden" style="color:red; text-align:center;">正在操作...</div>
+                    <table>
+                        <tbody>
+                            <tr class="post-header">
+                                <th class="post-title">类别</th>
+                                <th>相关博文</th>
+                                <th>编辑</th>
+                                <th>删除</th>
+                            </tr>
+                            @foreach (var item in (List<Category>)ViewBag.Categories)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td><a target="_blank" href="/Users/Category/@item.Id">@item.BlogCount</a></td>
+                                    <td>
+                                        <a href="#" data-toggle="modal" data-target="#edit_category_@item.Id" type="button">编辑</a>
+                                        <div class="modal fade" id="edit_category_@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="exampleModalLabel"><span id="user-name"></span><span id="feed-title">编辑类别 @item.Name</span></h4>
+                                                    </div>
+                                                    @using (Html.BeginForm("EditCategory", "ManageBlogs", FormMethod.Post))
+                                                    {
+                                                        <div class="modal-body">
+                                                            @Html.AntiForgeryToken()
+                                                            <div class="form-group">
+                                                                <input hidden="hidden" name="id" value="@item.Id" />
+                                                                <input class="form-control" name="name" type="text" placeholder="@item.Name" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                            <button type="submit" class="btn btn-primary">修改</button>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td>@Ajax.ActionLink("删除", "DeleteCategory", new { id = item.Id }, new AjaxOptions { Confirm = "确定删除该类别么?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "delete" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <br />
+                @using (Html.BeginForm("CreateCategory", "ManageBlogs", FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="input-group">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "添加类别" })
+                        <span class="input-group-btn">
+                            <button class="btn btn-default search-button" type="submit"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加</button>
+                        </span>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section LoadJS{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function HandleFailure() {
+            alert("处理失败!不能删除含有博客的类别.");
+        }
+        function DeleteSuccess() {
+            alert("删除成功!");
+            location.reload();
+        }
+    </script>
+}

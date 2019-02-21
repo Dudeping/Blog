@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "后台主页";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section LoadCss{
+<link href="~/css/dashboard.css" rel="stylesheet" />
+}
+
+<div class="page-content clearfix align">
+    <div class="box clearfix">
+        <a href="/Admin/ManageBlogs">
+            <div class="left" id="new-blogs">
+                <span class="glyphicon glyphicon-tasks lg"></span>
+            </div>
+            <div class="right">
+                <span class="new-add">@ViewBag.BlogNums</span>
+                <br>
+                <span class="explain">博客管理</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="box clearfix">
+        <a href="/Admin/ManageCategories">
+            <div class="left" id="new-tags">
+                <span class="glyphicon glyphicon-tags lg"></span>
+            </div>
+            <div class="right">
+                <span class="new-add">@ViewBag.Categories</span>
+                <br>
+                <span class="explain">博客类别</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="box clearfix">
+        <a href="/Admin/ManageUsers">
+            <div class="left" id="new-users">
+                <span class="glyphicon glyphicon-user lg"></span>
+            </div>
+            <div class="right">
+                <span class="new-add">@ViewBag.UserNums</span>
+                <br>
+                <span class="explain">用户管理</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="box clearfix">
+        <a href="/Admin/Feedback">
+            <div class="left" id="new-feeds">
+                <span class="glyphicon glyphicon-envelope lg"></span>
+            </div>
+            <div class="right">
+                <span class="new-add">+@ViewBag.Feedback</span>
+                <br>
+                <span class="explain">意见反馈</span>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="box clearfix">
+        <a href="@(ViewBag.SysErrors > 0 ? "/Admin/ManageLogs?logType=error":"/Admin/ManageLogs")">
+            <div class="left" id="new-logs">
+                <span class="glyphicon glyphicon-exclamation-sign lg"></span>
+            </div>
+            <div class="right">
+                <span class="new-add">+@ViewBag.SysErrors</span>
+                <br>
+                <span class="explain">系统报错</span>
+            </div>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,168 @@
+.header {
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: 40px;
+}
+
+
+table {
+    width: 70%;
+    margin: 0 auto;
+}
+
+tr th,tr td{
+    padding: 5px;
+}
+
+.g-btn {
+    color: white;
+    display: inline-block;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.view {
+    background-color: #5cb85c;
+}
+
+.reply,
+.gag {
+    background-color: #f0ad4e;
+}
+
+.gag:hover,
+.reply:hover {
+    background-color: rgba(236, 143, 10, 0.89);
+}
+
+.delete {
+    background-color: #d9534f;
+}
+
+.be-post-header {
+    background-color: rgba(162, 17, 17, 0.62);
+    color: white;
+}
+
+.middle-th {
+    width: 350px;
+}
+
+.short-th {
+    width: 70px;
+}
+
+.lg-th {
+    width: 280px;
+}
+
+textarea.form-control {
+    height: 250px;
+}
+
+#feed-title {
+    margin-left: 20px;
+}
+
+a:focus,
+a:hover {
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+.gsearch-box {
+    width: 30%;
+    margin: 0 auto 40px;
+    height: 40px;
+}
+
+
+.center-element {
+    text-align: center;
+}
+
+.g-inline {
+    display: inline-block;
+}
+
+.vertical-align {
+    top: -9px;
+    left: 9px;
+}
+
+.btn-group>.btn+.dropdown-toggle {
+    padding: 1px 5px;
+}
+
+.dropdown {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    min-width: 0px;
+}
+
+.align {
+    text-align: center;
+}
+
+.asshole > table{
+    width: 100%;
+}
+
+.menu-item.be-selected:before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 2px;
+    background-color: #e36209;
+    bottom: 0px;
+}
+
+.g-loc {
+    margin: 0px;
+}
+@media only screen and (max-width: 568px) {
+    .be-post-header {
+        display: none;
+    }
+
+    tr {
+        display: block;
+        border: 1px solid #eeeeee;
+        margin-bottom: 20px;
+        box-shadow: 2px 4px 5px rgba(3,3,3,0.2);
+    }
+
+    tr td {
+        display: block;
+        border-bottom: 1px dotted #eeeeee;
+        text-align: right;
+        padding: 10px;
+    }
+
+    td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+
+    td:last-child {
+        border-bottom: none;
+    }
+
+    .gsearch-box {
+        width: 60%;
+    }
+
+}
+
+@media only screen and (min-width: 568px) and (max-width: 1024px){
+    .gsearch-box {
+        width: 40%;
+    }
+}

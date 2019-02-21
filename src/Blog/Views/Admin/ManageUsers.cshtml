@@ -1,0 +1,123 @@
+﻿@model IPagedList<UserLogin>
+@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section LoadCss{
+    <link href="~/css/backend-general.css" rel="stylesheet" />
+}
+
+<div class="page-content">
+    <h1 class="header">用户管理</h1>
+    <div id="HandleDiv" hidden="hidden" style="color:red; text-align:center; font-size:14px;">
+        正在处理中...
+    </div>
+    <table>
+        <tr class="be-post-header">
+            <th>用户</th>
+            <th class="short-th">操作</th>
+            <th class="short-th">删除</th>
+            <th class="short-th">查看</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td data-label="用户">@item.Email</td>
+                <td data-label="查看">
+                    <a href="#" data-toggle="modal" data-target="#view-feedback_@item.Id" type="button" onclick="ShowDetails(@item.Id)" class="g-btn view">查看</a>
+                    <!-- 查看内容的模态框 -->
+                    <div class="modal fade" id="view-feedback_@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">@item.Email</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <table>
+                                        <tr>
+                                            <td>昵称</td>
+                                            <td><a id="NickName_@item.Id" target="_blank" href="#"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>信条</td>
+                                            <td id="Belief_@item.Id"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>标签</td>
+                                            <td id="Tag_@item.Id">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>公开博客数</td>
+                                            <td id="Blog_@item.Id">0</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                @if (item.Gog == false)
+                {
+                    <td data-label="操作">@Ajax.ActionLink("禁言", "SetGogUser", new { id = item.Id }, new AjaxOptions { Confirm = "真的要禁言该用户么?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "g-btn gag" })</td>
+                }
+                else
+                {
+                    <td data-label="操作">@Ajax.ActionLink("解禁", "SetGogUser", new { id = item.Id }, new AjaxOptions { Confirm = "真的要解禁该用户么?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "g-btn gag" })</td>
+                }
+
+                <td data-label="删除">@Ajax.ActionLink("删除", "DeleteUser", new { id = item.Id }, new AjaxOptions { Confirm = "真的要删除该用户么?", HttpMethod = "POST", LoadingElementDuration = 500, LoadingElementId = "HandleDiv", OnFailure = "HandleFailure", OnSuccess = "HandleSuccess" }, new { @class = "g-btn delete" })</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3">
+                @if (!Model.Any())
+                {
+
+                }
+                else
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("ManageUsers", new { page}), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+                }
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section LoadJS{
+    <script src="~/js/backend_scripts.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+    function HandleFailure() {
+        alert("处理失败!");
+    }
+    function HandleSuccess() {
+        alert("处理成功!");
+        location.reload();
+    }
+    function ShowDetails(uid) {
+        $.ajax({
+            url: '/Admin/ShowUserDetails',
+            data: { id: uid },
+            type: 'post',
+            dataType:"json",
+            async: false,
+            success: function (data) {
+                var udetail = eval("(" + data + ")");
+                $("#NickName_" + uid).text(udetail.NickName).attr("href", "/Users/Index/" + udetail.Id);
+                $("#Belief_" + uid).html(udetail.Belief);
+                $("#Tag_" + uid).html(udetail.CategoryNum);
+                $("#Blog_" + uid).html(udetail.BlogNum);
+            },
+            error: function () {
+                alert("数据加载失败,请刷新页面重试!");
+            }
+        });
+    }
+</script>
+
+}
