@@ -6,12 +6,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BlogPlus.Models
+namespace Blog.Models
 {
     /// <summary>
     /// 随笔和文章数据模型
     /// </summary>
-    public class Blog
+    public class BlogInfo
     {
         [Key]
         public int Id { get; set; }
@@ -176,7 +176,7 @@ namespace BlogPlus.Models
         public int BlogCount { get; set; }
 
         [DisplayName("博客")]
-        public virtual ICollection<Blog> Blogs { get; set; }
+        public virtual ICollection<BlogInfo> Blogs { get; set; }
     }
 
     /// <summary>
@@ -212,7 +212,7 @@ namespace BlogPlus.Models
         public int Id { get; set; }
 
         [DisplayName("博客ID")]
-        public Blog BlogId { get; set; }
+        public BlogInfo BlogId { get; set; }
 
         [DisplayName("用户ID")]
         [Required(ErrorMessage = "{0}为必填项!")]

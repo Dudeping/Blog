@@ -6,10 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using BlogPlus.Models;
+using Blog.Models;
 using PagedList;
 
-namespace BlogPlus.Controllers
+namespace Blog.Controllers
 {
     public class UsersController : BaseController
     {

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace BlogPlus.Models
+namespace Blog.Models
 {
     /// <summary>
     /// 用户角色

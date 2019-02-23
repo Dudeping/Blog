@@ -1,4 +1,4 @@
-﻿using BlogPlus.Models;
+﻿using Blog.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 
-namespace BlogPlus.Controllers
+namespace Blog.Controllers
 {
     public class HomeController : BaseController
     {

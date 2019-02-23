@@ -6,7 +6,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 
-namespace BlogPlus
+namespace Blog
 {
     public class MvcApplication : HttpApplication
     {

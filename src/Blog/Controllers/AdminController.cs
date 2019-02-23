@@ -1,4 +1,4 @@
-﻿using BlogPlus.Models;
+﻿using Blog.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
-namespace BlogPlus.Controllers
+namespace Blog.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class AdminController : BaseController

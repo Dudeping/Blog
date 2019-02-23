@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BlogPlus.Models
+namespace Blog.Models
 {
     /// <summary>
     /// 站内信数据模型

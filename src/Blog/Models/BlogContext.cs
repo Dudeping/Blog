@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace BlogPlus.Models
+namespace Blog.Models
 {
     public class BlogContext : DbContext
     {
@@ -19,24 +19,24 @@ namespace BlogPlus.Models
         {
         }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.Blog> Blogs { get; set; }
+        public DbSet<BlogInfo> Blogs { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.UserLogin> UserLogins { get; set; }
+        public DbSet<UserLogin> UserLogins { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.Role> Roles { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.Log> Logs { get; set; }
+        public DbSet<Log> Logs { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.Letter> Letters { get; set; }
+        public DbSet<Letter> Letters { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.SysNews> SysNews { get; set; }
+        public DbSet<SysNews> SysNews { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.Collection> Collections { get; set; }
+        public DbSet<Collection> Collections { get; set; }
 
-        public System.Data.Entity.DbSet<BlogPlus.Models.WebConfig> WebConfigs { get; set; }
+        public DbSet<WebConfig> WebConfigs { get; set; }
     }
 }

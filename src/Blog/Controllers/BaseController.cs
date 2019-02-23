@@ -1,4 +1,4 @@
-﻿using BlogPlus.Models;
+﻿using Blog.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -18,7 +18,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 
-namespace BlogPlus.Controllers
+namespace Blog.Controllers
 {
     /// <summary>
     /// 基类控制器

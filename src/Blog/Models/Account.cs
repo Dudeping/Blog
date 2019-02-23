@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BlogPlus.Models
+namespace Blog.Models
 {
     /// <summary>
     /// 用户数据模型
@@ -71,7 +71,7 @@ namespace BlogPlus.Models
         [Description("这里未公开信息表示自己的个人博客页面没有人能访问到!")]
         public bool IsPubulish { get; set; }
 
-        public virtual ICollection<Blog> Blogs { get; set; }
+        public virtual ICollection<BlogInfo> Blogs { get; set; }
 
         public virtual ICollection<Letter> Letters { get; set; }
 

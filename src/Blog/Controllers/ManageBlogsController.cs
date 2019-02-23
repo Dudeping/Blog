@@ -1,4 +1,4 @@
-﻿using BlogPlus.Models;
+﻿using Blog.Models;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace BlogPlus.Controllers
+namespace Blog.Controllers
 {
     [Authorize]
     public class ManageBlogsController : BaseController
@@ -132,7 +132,7 @@ namespace BlogPlus.Controllers
             // 当前用户
             var user = db.Users.FirstOrDefault(p => p.Email == User.Identity.Name);
             //添加博客
-            Blog entity = new Blog
+            BlogInfo entity = new BlogInfo
             {
                 Author = user,
                 BlogType = model.BlogType
@@ -215,7 +215,7 @@ namespace BlogPlus.Controllers
                 LogHelper("编辑博客失败", LogType.danger.ToString(), "修改博客的请求链接中id为null，用户可能存在修改请求链接的行为!", User.Identity.Name, IpHelper.GetIp());
                 return View("Error");
             }
-            Blog blog = db.Blogs.Find(id);
+            BlogInfo blog = db.Blogs.Find(id);
             if (blog == null)
             {
                 LogHelper("编辑博客失败", LogType.danger.ToString(), "博客不存在,用户很可能存在修改请求链接id的行为!", User.Identity.Name, IpHelper.GetIp());
@@ -398,7 +398,7 @@ namespace BlogPlus.Controllers
                 LogHelper("删除博客失败", LogType.danger.ToString(), "博客id不存在,用户可能存在修改请求链接id的行为!!", User.Identity.Name, IpHelper.GetIp());
                 return Json(false);
             }
-            Blog blog = db.Blogs.Find(id);
+            BlogInfo blog = db.Blogs.Find(id);
             if (blog == null)
             {
                 LogHelper("删除博客失败", LogType.danger.ToString(), "博客不存在,用户很可能存在修改请求链接id的行为!!", User.Identity.Name, IpHelper.GetIp());
