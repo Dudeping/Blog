@@ -1,6 +1,6 @@
 ﻿namespace GDIPlus
 {
-    partial class Form1
+    partial class MainFrm
     {
         /// <summary>
         /// 必需的设计器变量。
