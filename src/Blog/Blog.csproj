@@ -166,65 +166,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704261859004_Crea.cs" />
-    <Compile Include="Migrations\201704261859004_Crea.Designer.cs">
-      <DependentUpon>201704261859004_Crea.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704301627370_ChangeUser.cs" />
-    <Compile Include="Migrations\201704301627370_ChangeUser.Designer.cs">
-      <DependentUpon>201704301627370_ChangeUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705010541419_CHange.cs" />
-    <Compile Include="Migrations\201705010541419_CHange.Designer.cs">
-      <DependentUpon>201705010541419_CHange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705011558134_ChangeUser1.cs" />
-    <Compile Include="Migrations\201705011558134_ChangeUser1.Designer.cs">
-      <DependentUpon>201705011558134_ChangeUser1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705012027236_CHa.cs" />
-    <Compile Include="Migrations\201705012027236_CHa.Designer.cs">
-      <DependentUpon>201705012027236_CHa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705012130468_CHSysNews.cs" />
-    <Compile Include="Migrations\201705012130468_CHSysNews.Designer.cs">
-      <DependentUpon>201705012130468_CHSysNews.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705051600387_ChangeCollection.cs" />
-    <Compile Include="Migrations\201705051600387_ChangeCollection.Designer.cs">
-      <DependentUpon>201705051600387_ChangeCollection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705051629189_ChangeCollectio.cs" />
-    <Compile Include="Migrations\201705051629189_ChangeCollectio.Designer.cs">
-      <DependentUpon>201705051629189_ChangeCollectio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705051702496_ChangeCollecti.cs" />
-    <Compile Include="Migrations\201705051702496_ChangeCollecti.Designer.cs">
-      <DependentUpon>201705051702496_ChangeCollecti.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705060307448_ChangeWebCount.cs" />
-    <Compile Include="Migrations\201705060307448_ChangeWebCount.Designer.cs">
-      <DependentUpon>201705060307448_ChangeWebCount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705140807378_IpChange.cs" />
-    <Compile Include="Migrations\201705140807378_IpChange.Designer.cs">
-      <DependentUpon>201705140807378_IpChange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707260641180_ChangeF.cs" />
-    <Compile Include="Migrations\201707260641180_ChangeF.Designer.cs">
-      <DependentUpon>201707260641180_ChangeF.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707260828283_ChangeUser2.cs" />
-    <Compile Include="Migrations\201707260828283_ChangeUser2.Designer.cs">
-      <DependentUpon>201707260828283_ChangeUser2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201708100727271_AddCategory.cs" />
-    <Compile Include="Migrations\201708100727271_AddCategory.Designer.cs">
-      <DependentUpon>201708100727271_AddCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Blog.cs" />
-    <Compile Include="Models\BlogPlusContext.cs" />
+    <Compile Include="Models\BlogContext.cs" />
     <Compile Include="Models\Letter.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Role.cs" />
@@ -399,7 +342,6 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\emotions.data" />
     <Content Include="Emoji\emotions.data" />
-    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -490,50 +432,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704261859004_Crea.resx">
-      <DependentUpon>201704261859004_Crea.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704301627370_ChangeUser.resx">
-      <DependentUpon>201704301627370_ChangeUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705010541419_CHange.resx">
-      <DependentUpon>201705010541419_CHange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705011558134_ChangeUser1.resx">
-      <DependentUpon>201705011558134_ChangeUser1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705012027236_CHa.resx">
-      <DependentUpon>201705012027236_CHa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705012130468_CHSysNews.resx">
-      <DependentUpon>201705012130468_CHSysNews.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705051600387_ChangeCollection.resx">
-      <DependentUpon>201705051600387_ChangeCollection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705051629189_ChangeCollectio.resx">
-      <DependentUpon>201705051629189_ChangeCollectio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705051702496_ChangeCollecti.resx">
-      <DependentUpon>201705051702496_ChangeCollecti.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705060307448_ChangeWebCount.resx">
-      <DependentUpon>201705060307448_ChangeWebCount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705140807378_IpChange.resx">
-      <DependentUpon>201705140807378_IpChange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707260641180_ChangeF.resx">
-      <DependentUpon>201707260641180_ChangeF.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707260828283_ChangeUser2.resx">
-      <DependentUpon>201707260828283_ChangeUser2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201708100727271_AddCategory.resx">
-      <DependentUpon>201708100727271_AddCategory.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

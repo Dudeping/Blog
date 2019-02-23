@@ -33,7 +33,7 @@ namespace BlogPlus.Controllers
         /// <summary>
         /// 数据上下文
         /// </summary>
-        protected readonly BlogPlusContext db = new BlogPlusContext();
+        protected readonly BlogContext db = new BlogContext();
         protected int pageSize = 5; //每页显示条数
 
         /// <summary>
